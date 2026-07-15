@@ -1,0 +1,14 @@
+{
+  "name": "seo-agentur",
+  "private": true,
+  "type": "module",
+  "description": "Agentur-Monorepo: Dashboard (dashboard/) + autonome Backlink-Engine (engine/)",
+  "scripts": {
+    "engine": "node engine/run.mjs",
+    "engine:dry": "node engine/run.mjs --dry",
+    "dashboard": "npm run dev --prefix dashboard"
+  },
+  "dependencies": {
+    "nodemailer": "^7.0.3"
+  }
+}

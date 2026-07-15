@@ -46,6 +46,18 @@ export const TASK_STATUS = ["Offen", "In Arbeit", "Erledigt"] as const;
 
 export const INTEGRATION_STATUS = ["Fehlt", "In Einrichtung", "Aktiv"] as const;
 
+export const OUTREACH_STATUS = ["Entwurf", "Genehmigt", "Gesendet", "Beantwortet", "Verworfen"] as const;
+
+/** Kanal-Taxonomie der Engine inkl. Rechts-Gate-Hinweis (§7 UWG). */
+export const CHANNEL_LABELS: Record<string, string> = {
+  journalist: "Journalistenanfrage · auto-versendbar",
+  email_int: "E-Mail international · auto per Schalter",
+  email_bestand: "E-Mail Bestandskontakt · auto-versendbar",
+  formular: "Kontaktformular · manuell einreichen",
+  telefon: "Telefon · Gesprächsleitfaden",
+  registrierung: "Verzeichnis-Registrierung",
+};
+
 export const BACKLINK_TYPES = [
   "Verzeichnis",
   "Gastbeitrag",

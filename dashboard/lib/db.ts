@@ -116,7 +116,41 @@ function migrate(db: DatabaseSync) {
       status TEXT NOT NULL DEFAULT 'Fehlt',
       notes TEXT DEFAULT ''
     );
+
+    CREATE TABLE IF NOT EXISTS outreach_queue (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      backlink_id INTEGER,
+      company_id INTEGER,
+      channel TEXT DEFAULT '',
+      language TEXT DEFAULT 'de',
+      subject TEXT DEFAULT '',
+      body TEXT DEFAULT '',
+      status TEXT NOT NULL DEFAULT 'Entwurf',
+      notes TEXT DEFAULT '',
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      sent_at TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS engine_runs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      started_at TEXT NOT NULL DEFAULT (datetime('now')),
+      stage TEXT,
+      summary TEXT
+    );
   `);
+
+  // Engine-Zusatzspalten (idempotent — Bestands-DBs werden nachgezogen)
+  for (const sql of [
+    "ALTER TABLE backlinks ADD COLUMN score INTEGER",
+    "ALTER TABLE backlinks ADD COLUMN channel TEXT DEFAULT ''",
+    "ALTER TABLE backlinks ADD COLUMN last_checked TEXT",
+  ]) {
+    try {
+      db.exec(sql);
+    } catch {
+      // Spalte existiert bereits
+    }
+  }
 
   seed(db);
 }
@@ -464,6 +498,47 @@ export function listIntegrations(): Integration[] {
   return getDb()
     .prepare("SELECT * FROM integrations ORDER BY status = 'Aktiv' ASC, category, name")
     .all() as unknown as Integration[];
+}
+
+export interface OutreachItem {
+  id: number;
+  backlink_id: number | null;
+  company_id: number | null;
+  company_name: string | null;
+  color_slot: number | null;
+  source: string | null;
+  channel: string;
+  language: string;
+  subject: string;
+  body: string;
+  status: string;
+  notes: string;
+  created_at: string;
+  sent_at: string | null;
+}
+
+export function listOutreach(companyId?: number): OutreachItem[] {
+  const sql = `SELECT x.*, c.name AS company_name, c.color_slot, b.source
+    FROM outreach_queue x
+    LEFT JOIN companies c ON c.id = x.company_id
+    LEFT JOIN backlinks b ON b.id = x.backlink_id
+    WHERE 1=1 ${companyFilter(companyId)}
+    ORDER BY x.status = 'Entwurf' DESC, x.id DESC`;
+  const stmt = getDb().prepare(sql);
+  return (companyId ? stmt.all(companyId) : stmt.all()) as unknown as OutreachItem[];
+}
+
+export interface EngineRun {
+  id: number;
+  started_at: string;
+  stage: string;
+  summary: string;
+}
+
+export function lastEngineRuns(limit = 10): EngineRun[] {
+  return getDb()
+    .prepare("SELECT * FROM engine_runs ORDER BY id DESC LIMIT ?")
+    .all(limit) as unknown as EngineRun[];
 }
 
 export interface GlobalStats {

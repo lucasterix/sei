@@ -32,10 +32,10 @@ export function Badge({ children, tone = "neutral" }: { children: ReactNode; ton
 
 /** Status immer mit Icon + Text — Farbe trägt nie allein die Bedeutung. */
 export function StatusBadge({ status }: { status: string }) {
-  if (status === "Live" || status === "Veröffentlicht" || status === "Erledigt" || status === "Aktiv") {
+  if (["Live", "Veröffentlicht", "Erledigt", "Aktiv", "Beantwortet", "Gesendet"].includes(status)) {
     return <Badge tone="good">✓ {status}</Badge>;
   }
-  if (status === "Abgelehnt" || status === "Verloren") {
+  if (status === "Abgelehnt" || status === "Verloren" || status === "Verworfen") {
     return <Badge tone="bad">✕ {status}</Badge>;
   }
   return <Badge>{status}</Badge>;

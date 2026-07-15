@@ -8,9 +8,10 @@ import {
   CAMPAIGN_STATUS,
   TASK_STATUS,
   INTEGRATION_STATUS,
+  OUTREACH_STATUS,
 } from "@/lib/format";
 
-export type ItemKind = "backlink" | "content" | "campaign" | "task" | "integration" | "keyword";
+export type ItemKind = "backlink" | "content" | "campaign" | "task" | "integration" | "keyword" | "outreach";
 
 const TARGETS: Record<ItemKind, { table: string; statuses: readonly string[]; touch?: boolean }> = {
   backlink: { table: "backlinks", statuses: BACKLINK_STATUS, touch: true },
@@ -19,6 +20,7 @@ const TARGETS: Record<ItemKind, { table: string; statuses: readonly string[]; to
   task: { table: "tasks", statuses: TASK_STATUS },
   integration: { table: "integrations", statuses: INTEGRATION_STATUS },
   keyword: { table: "keywords", statuses: [] },
+  outreach: { table: "outreach_queue", statuses: OUTREACH_STATUS },
 };
 
 function refresh() {

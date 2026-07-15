@@ -21,6 +21,7 @@ const NAV: Array<{ section: string; items: Array<{ href: string; label: string }
     items: [
       { href: "/keywords", label: "Keywords & Rankings" },
       { href: "/backlinks", label: "Backlink-Pipeline" },
+      { href: "/outreach", label: "Outreach-Queue" },
       { href: "/content", label: "Content-Pipeline" },
     ],
   },
