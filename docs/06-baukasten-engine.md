@@ -69,11 +69,15 @@ Ausbaustufe der Engine (`asset-factory`).
 
 ## 5. Roadmap der Engine
 
-- **v0 (jetzt):** Skripte prospect/qualify/outreach/monitor + Outreach-Queue im
+- **v0 ✅:** Skripte prospect/qualify/outreach/monitor + Outreach-Queue im
   Dashboard, Legal-Gates, Cron-fähig, Fallbacks ohne API-Keys.
-- **v1:** DataForSEO produktiv (Rankings nightly, Konkurrenz-Backlink-Gaps als
-  Prospect-Quelle), SMTP-Versand aktiv, Antwort-Erkennung (IMAP) → Status „Beantwortet“.
-- **v2:** Journalistenanfragen-Ingestion (HEJA/Featured-Mails parsen → passende
-  Mandanten → Antwortentwurf automatisch), Browser-Agent für Verzeichnis-Registrierung.
-- **v3:** Asset-Factory (Hub-Deployments), Monats-Report-PDF automatisch, Multi-Host-
-  Betrieb (kleiner Server statt Laptop).
+- **v1 (Code fertig, wartet auf Zugangsdaten):** Rankings nightly (DataForSEO in
+  `monitor`), SMTP-Versand (`outreach`), Antwort-Erkennung per IMAP (`inbox`) →
+  Status „Beantwortet“. Aktivierung: `engine/.env` befüllen (`npm run engine:check`).
+- **v2 (teilweise ✅):** Journalistenanfragen-Ingestion läuft (`journalist`:
+  inbox-Ordner + IMAP-Export, Matching, Antwortentwurf — end-to-end getestet).
+  Offen: Konkurrenz-Backlink-Gaps als Prospect-Quelle (DataForSEO), Browser-Agent
+  für Verzeichnis-Registrierungen.
+- **v3 (teilweise ✅):** Monatsberichte als Markdown (`report`) laufen. Offen:
+  PDF-Rendering/Versand, Asset-Factory (Hub-Deployments), Multi-Host-Betrieb
+  (kleiner Server statt Laptop).

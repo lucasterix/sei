@@ -6,9 +6,12 @@
   "scripts": {
     "engine": "node engine/run.mjs",
     "engine:dry": "node engine/run.mjs --dry",
+    "engine:check": "node engine/check.mjs",
+    "engine:report": "node engine/report.mjs",
     "dashboard": "npm run dev --prefix dashboard"
   },
   "dependencies": {
+    "imapflow": "^1.0.191",
     "nodemailer": "^7.0.3"
   }
 }

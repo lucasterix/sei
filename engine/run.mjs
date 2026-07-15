@@ -8,6 +8,9 @@ import { prospect } from "./prospect.mjs";
 import { qualify } from "./qualify.mjs";
 import { outreach } from "./outreach.mjs";
 import { monitor } from "./monitor.mjs";
+import { journalist } from "./journalist.mjs";
+import { inbox } from "./inbox.mjs";
+import { report } from "./report.mjs";
 
 loadEnv();
 const args = process.argv.slice(2);
@@ -17,7 +20,7 @@ if (args.includes("--dry")) {
 }
 const stage = args.find((a) => !a.startsWith("--"));
 
-const stages = { prospect, qualify, outreach, monitor };
+const stages = { prospect, qualify, outreach, monitor, journalist, inbox, report };
 
 const started = Date.now();
 logRun("run", `Engine-Lauf startet (${stage || "alle Stufen"}${args.includes("--dry") ? ", dry" : ""})`);
@@ -25,6 +28,8 @@ logRun("run", `Engine-Lauf startet (${stage || "alle Stufen"}${args.includes("--
 if (stage && stages[stage]) {
   await stages[stage]();
 } else {
+  await inbox(); // Antworten + neue Journalistenanfragen aus dem Postfach holen
+  await journalist(); // zeitkritisch: Anfragen zuerst beantworten
   await prospect();
   await qualify();
   await outreach();

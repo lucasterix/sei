@@ -4,13 +4,31 @@ Vier Stufen, eine Datenbank (die des Dashboards), ein Cron-Eintrag. Konzept:
 [docs/06-baukasten-engine.md](../docs/06-baukasten-engine.md).
 
 ```bash
-node engine/run.mjs --dry     # Testlauf ohne Claude/Versand (Fallbacks)
-node engine/run.mjs           # kompletter Lauf (prospect → qualify → outreach → monitor)
-node engine/run.mjs monitor   # einzelne Stufe
+npm run engine:check          # Setup-Doctor: welche Fähigkeiten sind aktiv?
+npm run engine:dry            # Testlauf ohne Claude/Versand (Fallbacks)
+npm run engine                # kompletter Lauf: inbox → journalist → prospect → qualify → outreach → monitor
+npm run engine:report         # Monatsberichte je Unternehmen → reports/
+node engine/run.mjs monitor   # einzelne Stufe (auch: journalist, inbox, report, …)
 ```
 
 Ergebnis landet sichtbar im Dashboard: Backlink-Pipeline (neue Ziele mit Score/Kanal)
 und **Outreach-Queue** (Entwürfe genehmigen/verwerfen).
+
+## Journalistenanfragen (der vollautonome Kanal)
+
+Anfragen von HEJA/Recherchescout/Featured als `.txt` in `engine/inbox/` ablegen — oder
+per IMAP automatisch abholen lassen (`IMAP_JOURNALIST_FOLDER`). Die Engine matcht jede
+Anfrage gegen alle Mandanten, legt die Presse-Chance in der Pipeline an und schreibt
+eine zitierfähige Antwort in die Queue (Kanal `journalist` = auto-versendbar, denn die
+Zusendung ist erbeten). Erfundene Zahlen sind per Prompt verboten — Platzhalter
+`[ZAHL PRÜFEN: …]`/`[NAME]` vor Versand füllen bzw. bei AUTO_SEND darauf vertrauen,
+dass nur belegbare Aussagen enthalten sind (Stichprobe empfohlen).
+
+## Monatsberichte
+
+`npm run engine:report` erzeugt je Unternehmen `reports/<domain>/<jahr-monat>.md`
+(Ergebnisse, Ranking-Bewegungen, Erledigtes, nächste Schritte) — direkt versandfähige
+Grundlage für das Kunden-Update. Per Cron am Monatsersten automatisieren.
 
 ## Intelligenz-Quellen (automatische Kette)
 
