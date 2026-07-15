@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/*
+ * Design-Tokens nach dataviz-Referenzpalette.
+ * Light/Dark werden über prefers-color-scheme umgeschaltet;
+ * alle Utilities (bg-surface, text-ink, …) referenzieren die Variablen.
+ */
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink2: var(--ink2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-baseline: var(--baseline);
+  --color-accent: var(--accent);
+  --color-good: var(--good);
+  --color-bad: var(--bad);
+  --color-warn: var(--warn);
+  --color-serious: var(--serious);
+}
+
+:root {
+  color-scheme: light;
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink2: #52514e;
+  --muted: #898781;
+  --line: #e1e0d9;
+  --baseline: #c3c2b7;
+  --ring: rgba(11, 11, 11, 0.1);
+  --accent: #2a78d6;
+  /* Statusfarben (fix, nie als Serienfarbe) */
+  --good: #006300;
+  --warn: #fab219;
+  --serious: #ec835a;
+  --bad: #d03b3b;
+  /* Kategoriale Slots (feste Reihenfolge, pro Unternehmen) */
+  --c1: #2a78d6;
+  --c2: #008300;
+  --c3: #e87ba4;
+  --c4: #eda100;
+  --c5: #1baf7a;
+  --c6: #eb6834;
+  --c7: #4a3aa7;
+  --c8: #e34948;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page: #0d0d0d;
+    --surface: #1a1a19;
+    --ink: #ffffff;
+    --ink2: #c3c2b7;
+    --muted: #898781;
+    --line: #2c2c2a;
+    --baseline: #383835;
+    --ring: rgba(255, 255, 255, 0.1);
+    --accent: #3987e5;
+    --good: #0ca30c;
+    --warn: #fab219;
+    --serious: #ec835a;
+    --bad: #d03b3b;
+    --c1: #3987e5;
+    --c2: #008300;
+    --c3: #d55181;
+    --c4: #c98500;
+    --c5: #199e70;
+    --c6: #d95926;
+    --c7: #9085e9;
+    --c8: #e66767;
+  }
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--ring);
+  border-radius: 0.75rem;
+}
+
+.hairline {
+  border-color: var(--line);
+}
+
+/* Tabellen: Zahlenspalten ausrichten */
+.num {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+input,
+select,
+textarea {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+::placeholder {
+  color: var(--muted);
+}
